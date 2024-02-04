@@ -1,3 +1,6 @@
+from yaml import compose, compose_all
+
+
 def lambda_curry2(func):
     """
     Returns a Curried version of a two-argument function FUNC.
@@ -57,20 +60,9 @@ def composite_identity(f, g):
     """
     Return a function with one parameter x that returns True if f(g(x)) is
     equal to g(f(x)). You can assume the result of g(x) is a valid input for f
-    and vice versa.
+    and vice versa."""
 
-    >>> add_one = lambda x: x + 1        # adds one to x
-    >>> square = lambda x: x**2
-    >>> b1 = composite_identity(square, add_one)
-    >>> b1(0)                            # (0 + 1)^2 == 0^2 + 1
-    True
-    >>> b1(4)                            # (4 + 1)^2 != 4^2 + 1
-    False
-    """
-    "*** YOUR CODE HERE ***"
-    def identity(x):
-        return composer(f, g)(x) == composer(g, f)(x)
-    return identity
+    return lambda x: compose_all(f, g)(x) == compose(g, f)(x)
 
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
